@@ -1,4 +1,4 @@
-# C-Game---TBD-
+# Game-using-C-Language
 The Repository will be for Game made using C Language.
 Hello everyone, Yogesh here.
 This is our Github Repository for creating a game using C Language.
