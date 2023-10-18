@@ -1,0 +1,75 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+// Function to generate a random number within a specified range
+int getRandom(int min, int max) {
+    return min + rand() % (max - min + 1);
+}
+
+int main() {
+    srand(time(NULL));  // Initialize random number generator
+
+    int playerHealth = 100;
+    int enemyHealth = 75;
+    int minPlayerAttack = 10;
+    int maxPlayerAttack = 25;
+    int minEnemyAttack = 5;
+    int maxEnemyAttack = 20;
+    int reward = 50;
+
+    printf("Welcome to the Text Adventure Game!\n");
+    printf("You have %d health. An enemy with %d health approaches!\n", playerHealth, enemyHealth);
+
+    while (playerHealth > 0 && enemyHealth > 0) {
+        int choice;
+
+        printf("Choose an option:\n");
+        printf("1. Attack the enemy\n");
+        printf("2. Rest to restore health\n");
+        printf("3. Quit the game\n");
+        printf("Your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                // Player attacks the enemy
+                int playerAttack = getRandom(minPlayerAttack, maxPlayerAttack);
+                enemyHealth -= playerAttack;
+                printf("You attack the enemy and deal %d damage. Enemy health: %d\n", playerAttack, enemyHealth);
+
+                // Check if the enemy is defeated
+                if (enemyHealth <= 0) {
+                    printf("Congratulations! You defeated the enemy and earned a reward of %d!\n", reward);
+                } else {
+                    // Enemy's turn to attack
+                    int enemyAttack = getRandom(minEnemyAttack, maxEnemyAttack);
+                    playerHealth -= enemyAttack;
+                    printf("The enemy counterattacks and deals %d damage. Your health: %d\n", enemyAttack, playerHealth);
+                }
+                break;
+            case 2:
+                // Player rests and restores health
+                int restoredHealth = getRandom(10, 30);
+                playerHealth += restoredHealth;
+                printf("You rest and restore %d health. Your health: %d\n", restoredHealth, playerHealth);
+
+                // Enemy's turn to attack
+                int enemyAttack = getRandom(minEnemyAttack, maxEnemyAttack);
+                playerHealth -= enemyAttack;
+                printf("The enemy attacks while you rest and deals %d damage. Your health: %d\n", enemyAttack, playerHealth);
+                break;
+            case 3:
+                printf("You quit the game. Final health: %d\n", playerHealth);
+                exit(0);
+            default:
+                printf("Invalid choice. Try again.\n");
+        }
+    }
+
+    if (playerHealth <= 0) {
+        printf("You were defeated by the enemy. Game over!\n");
+    }
+
+    return 0;
+}
